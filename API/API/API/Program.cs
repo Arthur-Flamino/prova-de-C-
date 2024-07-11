@@ -55,7 +55,7 @@ app.MapPost("/tarefas/cadastrar", ([FromServices] AppDataContext ctx, [FromBody]
 });
 
 //PUT: http://localhost:5000/tarefas/alterar/{id}
-app.MapPut("/tarefas/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRoute] string id, [FromBody] Tarefa statusAlterado) =>
+app.MapPut("/tarefas/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRoute] string id) =>
 {
     Tarefa? tarefa = ctx.Tarefas.Find(id);
     if (tarefa == null)
@@ -63,8 +63,15 @@ app.MapPut("/tarefas/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRou
         return Results.NotFound("Produto não encontrado");
     }
 
+     if (tarefa.Status == "Não iniciada")
+    {
+        tarefa.Status = "Em andamento";
+    }
+    else if (tarefa.Status == "Em andamento")
+    {
+        tarefa.Status = "Concluída";
+    }
 
-    tarefa.Status = statusAlterado.Status;
     ctx.Tarefas.Update(tarefa);
     ctx.SaveChanges();
     return Results.Ok("Status alterado");

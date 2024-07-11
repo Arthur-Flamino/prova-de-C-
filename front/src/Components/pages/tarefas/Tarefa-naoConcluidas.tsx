@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { Tarefa } from "../../../Models/Tarefas";
-import { Categoria } from "../../../Models/Categoria";
 
 
-function listarNaoConcluidas(){
+function ListarNaoConcluidas(){
     const [tarefas, setTarefas] = useState<Tarefa[]>([]);
-    const [categoria, setCategoria] = useState<Categoria[]>([]);
 
     useEffect(() => {
         carregarNaoConcluidas();
@@ -38,9 +36,6 @@ function listarNaoConcluidas(){
                             <td>{tarefa.TarefaId}</td>
                             <td>{tarefa.Titulo}</td>
                             <td>{tarefa.Descricao}</td>
-                            {categoria.map((categoria) =>(
-                            <><td>{categoria.Nome}</td></>
-                        ))}
                             <td>{tarefa.Status}</td>
                         </tr>
                     ))}
@@ -49,4 +44,4 @@ function listarNaoConcluidas(){
         </div>
     );
 }
-export default listarNaoConcluidas();
+export default ListarNaoConcluidas;

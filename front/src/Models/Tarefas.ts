@@ -6,6 +6,6 @@ export interface Tarefa{
     Descricao : string;
     CriadoEm? : string;
     Categoria? : Categoria;
-    CategoriaId? : string;
-    Status : string;
+    CategoriaId : string;
+    Status? : string;
 }

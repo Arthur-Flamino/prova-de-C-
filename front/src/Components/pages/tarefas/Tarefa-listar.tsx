@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { Tarefa } from "../../../Models/Tarefas";
 import { Categoria } from "../../../Models/Categoria";
-import { Link } from "react-router-dom";
+import axios from "axios";
 
 
-
-function tarefasListar(){
+function TarefasListar(){
     const [tarefas, setTarefas] = useState<Tarefa[]>([]);
     const [categoria, setCategoria] = useState<Categoria[]>([]);
 
@@ -21,10 +20,19 @@ function tarefasListar(){
                                                      });
     }
 
+    function alterar(id: string) {
+        console.log(`Id: ${id}`);
+        axios
+          .put(`http://localhost:5000/tarefas/alterar/${id}`)
+          .then((resposta) => {
+            setTarefas(resposta.data);
+          });
+      }
+
     return (
         <div>
             <h1>Listar Tarefas</h1>
-            <table>
+            <table border={1}>
                 <thead>
                     <tr>
                         <th>TarefaId</th>
@@ -47,9 +55,7 @@ function tarefasListar(){
                             <><td>{categoria.Nome}</td><td>{categoria.CategoriaId}</td></>
                         ))}
                             <td>{tarefa.Status}</td>
-                            {/* { <td><Link to={`/pages/Tarefas/alterar/${tarefa.TarefaId}`}>
-                                Alterar
-                                </Link></td>} */}
+                            <td><button onClick={() => {alterar(tarefa.TarefaId!);}}>Alterar</button></td>
                         </tr>
                     ))}
                 </tbody>
@@ -57,4 +63,4 @@ function tarefasListar(){
         </div>
     );
 }
-export default tarefasListar();
+export default TarefasListar;

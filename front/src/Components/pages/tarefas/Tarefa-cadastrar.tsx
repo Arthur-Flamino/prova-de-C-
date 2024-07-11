@@ -4,13 +4,12 @@ import { Tarefa } from "../../../Models/Tarefas";
 import { useNavigate } from "react-router-dom";
 
 
-function tarefaCadastrar(){
+function TarefaCadastrar(){
     const navigate = useNavigate();
     const [titulo, setTitulo] = useState('');
     const [descricao, setDescricao] = useState('');
     const [categoria, setCategoria] = useState<Categoria[]>([]);
-    const [CategoriaId, setCategoriaId] = useState('');
-    const [status, setStatus] = useState('');
+    const [categoriaId, setCategoriaId] = useState('');
 
     useEffect(() =>{
         carregarCategorias();
@@ -28,8 +27,7 @@ function tarefaCadastrar(){
         const tarefa: Tarefa = {
             Titulo: titulo,
             Descricao: descricao,
-            CategoriaId: CategoriaId,
-            Status: status
+            CategoriaId: categoriaId,
         };
         fetch("http://localhost:5225/api/produto/cadastrar", {
           method: "POST",
@@ -40,7 +38,7 @@ function tarefaCadastrar(){
         })
           .then((resposta) => resposta.json())
           .then((tarefa: Tarefa) => {
-            navigate("/pages/Tarefa/listar");
+            navigate("/pages/tarefas/listar");
           });
         e.preventDefault();
       }
@@ -64,20 +62,20 @@ function tarefaCadastrar(){
                 />
                 <br />
                 <label>Categorias:</label>
-                <select onChange={(e: any) => setCategoriaId(e.target.value)}>
-                    {categoria.map((categoria) => (
-                    <option value={categoria.CategoriaId} key={categoria.CategoriaId}>
-                        {categoria.Nome}
-                    </option>
+                    <select onChange={(e: any) => setCategoriaId(e.target.value)}>
+                        {categoria.map((categoria) => (
+                        <option 
+                        value={categoria.CategoriaId} 
+                        key={categoria.CategoriaId}>
+                          
+                            {categoria.Nome}
+                        </option>
                     ))}
                 </select>
                 <br />
-                <label>Status:</label>
-                <select onChange={(e: any) => setStatus(e.target.value)}>
-                    <option value="Não iniciada">Pendente</option>
-                </select>
                 <button type="submit">Cadastrar</button>    
             </form>
         </div>
       )
 }
+export default TarefaCadastrar;
